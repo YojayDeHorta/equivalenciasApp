@@ -23,7 +23,7 @@ export class MonedasService {
             // ...
             array.push({
                 name:codigosMonedas[key].name,
-                currency:key
+                abbreviation:key
             })
         }
         // console.log(array);
