@@ -1,0 +1,100 @@
+{
+    "length": {
+        "kilometer": {
+            "name": "Kilometers",
+            "abbreviation": "km"
+        },  
+        "meter": {
+            "name": "Meters",
+            "abbreviation":"m"
+        }, 
+        "decimeter": {
+            "name": "Decimeters",
+            "abbreviation": "dm"
+        }, 
+        "centimeter": {
+            "name": "Centimeters",
+            "abbreviation": "cm"
+        }, 
+        "millimeter": {
+            "name": "Millimeters",
+            "abbreviation":"mm"
+        }, 
+        "micrometre": {
+            "name": "Micrometers",
+            "abbreviation": "um"
+        }, 
+        "nanometer": {
+            "name": "Nanometers",
+            "abbreviation": "nm"
+        }, 
+        "angstrom": {
+            "name": "Angstroms",
+            "abbreviation": "A"
+        }
+    },
+    "speed": {
+        "kilometer_per_second": {
+            "name": "Kilometers per second",
+            "abbreviation": "km/s"
+        }, 
+        "meter_per_second": {
+            "name": "Meters per second",
+            "abbreviation":"m/s"
+        }, 
+        "kilometer_per_hour": {
+            "name": "Kilometers per hour",
+            "abbreviation": "km/h"
+        }, 
+        "millimeter_per_second": {
+            "name": "Millimeters per second",
+            "abbreviation":"mm/s"
+        },
+        "micrometer_per_second": {
+            "name": "Micrometers per second",
+            "abbreviation": "um/s"
+        } 
+    },
+    "time": {
+        "year": {
+            "name": "Years",
+            "abbreviation": "yr"
+        },
+        "month": {
+            "name": "Months",
+            "abbreviation":"mo"
+        },
+        "week": {
+            "name": "Weeks",
+            "abbreviation": "wk"
+        },
+        "day": {
+            "name": "Days",
+            "abbreviation": "d"
+        }, 
+        "hour": {
+            "name": "Hours",
+            "abbreviation": "h"
+        }, 
+        "minute": {
+            "name": "Minutes",
+            "abbreviation":"min"
+        }, 
+        "second": {
+            "name": "Seconds",
+            "abbreviation":"s"
+        }, 
+        "millisecond": {
+            "name": "Milliseconds",
+            "abbreviation":"ms"
+        },
+        "microsecond": {
+            "name": "Microseconds",
+            "abbreviation": "us"
+        },
+        "nanosecond": {
+            "name": "Nanoseconds",
+            "abbreviation": "ns"
+        } 
+    }
+}

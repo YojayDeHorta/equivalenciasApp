@@ -11,8 +11,9 @@ export class ConverterService {
         valorConvertido:2
     }]
     async getListaConverter(){
+        const converter = JSON.parse(await readFile("./src/converter/converterNames.json", "utf8"));
 
-        return this.arregloDeConversiones;
+        return converter;
     }
 
     async convertirConverter(IDunidad:string,valueToconvert:number,convertTo:string,convertFrom:string){
