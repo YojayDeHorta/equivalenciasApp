@@ -10,10 +10,11 @@ export class ConverterService {
         convertFrom:"m",
         valorConvertido:2
     }]
-    async getListaConverter(){
+    async getListaConverter(IDunidad:string){
         const converter = JSON.parse(await readFile("./src/converter/converterNames.json", "utf8"));
-
-        return converter;
+        if (!converter.hasOwnProperty(IDunidad)) 
+            return {ok:false,message: "it seems that the converter/equivalence is wrong, they were not found in the table of equivalences"}
+        return converter[IDunidad];
     }
 
     async convertirConverter(IDunidad:string,valueToconvert:number,convertTo:string,convertFrom:string){

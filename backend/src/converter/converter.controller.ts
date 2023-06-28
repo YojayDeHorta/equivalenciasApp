@@ -6,9 +6,9 @@ export class ConverterController {
     constructor(private converterService:ConverterService){
 
     }
-    @Get()
-    getListaConverter(){
-        return this.converterService.getListaConverter()
+    @Get(':unidad')
+    getListaConverter(@Param('unidad') IDunidad){
+        return this.converterService.getListaConverter(IDunidad)
     }
 
     @Post(':unidad')
