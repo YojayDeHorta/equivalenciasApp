@@ -1,5 +1,5 @@
 export class Monedas{
-    valorAconvertir:number;
+    valueToconvert:number;
     convertTo:string;
     convertFrom:string;
     valorConvertido:number

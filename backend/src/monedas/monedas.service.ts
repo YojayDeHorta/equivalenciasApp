@@ -16,31 +16,42 @@ export class MonedasService {
         
     ]
     async getMonedasService(){
-        return this.arregloDemonedas
+        const codigosMonedas = JSON.parse(await readFile("./src/monedas/codigosMonedas.json", "utf8"));
+        let array=[]
+        for (var key in codigosMonedas) {
+            // console.log(codigosMonedas[key]);
+            // ...
+            array.push({
+                name:codigosMonedas[key].name,
+                currency:key
+            })
+        }
+        // console.log(array);
+        
+        return array
     }
-    async convertirMoneda(valorAconvertir:number,convertTo:string,convertFrom:string){
+    async convertirMoneda(valueToconvert:number,convertTo:string,convertFrom:string){
         try {
             const codigosMonedas = JSON.parse(await readFile("./src/monedas/codigosMonedas.json", "utf8"));
             if (!codigosMonedas.hasOwnProperty(convertFrom)||!codigosMonedas.hasOwnProperty(convertTo)) 
-                return {mensaje: "parece que el convertTo o convertFrom estan incorrectos, no se encontraron en la tabla de las monedas"}
-            console.log(valorAconvertir);
+                return {ok:false,message: "it seems that the convertTo or convertFrom are incorrect, they were not found in the currencies table"}
+            console.log(valueToconvert);
             
-            const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valorAconvertir}`, options);
+            const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valueToconvert}`, options);
             const result = await respuesta.text();
 
             const MonedaConvertida={
-                valorAconvertir,
+                valueToconvert,
                 convertTo,
                 convertFrom,
-                valorConvertido:result*valorAconvertir
+                valorConvertido:result*valueToconvert
              }
             this.arregloDemonedas.push(MonedaConvertida)
-            return {mensaje:`se convirtio exitosamente de ${convertFrom} a ${convertTo}`,resultado:result*valorAconvertir}
+            return {ok:true,message:`successfully converted ${convertFrom} to ${convertTo}`,result:result*valueToconvert,currency:convertTo}
 
         } catch (error) {
             console.error(error);
-            return {mensaje: "ERROR DE LA API DE EQUIVALENCIAS"}
-
+            return {ok:false,message: "CURRENCY API ERROR"}
         }
     }
 }

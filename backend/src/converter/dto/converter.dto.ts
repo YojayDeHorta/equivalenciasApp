@@ -1,8 +1,8 @@
 import { IsString, IsNotEmpty ,Min } from "class-validator";
 
-export class CreateLongitudDto {
+export class CreateConverterDto {
     @Min(1)
-    valorAconvertir:number;
+    valueToconvert:number;
     @IsString()
     @IsNotEmpty()
     convertTo:string;

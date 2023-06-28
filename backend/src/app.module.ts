@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LongitudModule } from './longitud/longitud.module';
+import { ConverterModule } from './converter/converter.module';
 import { MonedasModule } from './monedas/monedas.module';
 
 @Module({
-  imports: [LongitudModule, MonedasModule],
+  imports: [ConverterModule, MonedasModule],
   controllers: [],
   providers: [],
 })

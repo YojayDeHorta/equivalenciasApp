@@ -15,6 +15,6 @@ export class MonedasController {
     @Post()
     convertirMoneda(@Body() newMonedas:CreateMonedasDto){
         console.log(newMonedas);
-        return this.monedaService.convertirMoneda(newMonedas.valorAconvertir,newMonedas.convertTo,newMonedas.convertFrom)
+        return this.monedaService.convertirMoneda(newMonedas.valueToconvert,newMonedas.convertTo,newMonedas.convertFrom)
     }
 }

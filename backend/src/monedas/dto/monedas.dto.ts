@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty ,Min } from "class-validator";
 export class CreateMonedasDto
  {
     @Min(1)
-    valorAconvertir:number;
+    valueToconvert:number;
     @IsString()
     @IsNotEmpty()
     convertTo:string;
