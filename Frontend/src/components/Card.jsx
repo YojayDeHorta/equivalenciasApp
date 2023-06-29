@@ -2,6 +2,7 @@ import { useState } from "react"
 import useFetch from "./hooks/useFetch";
 import Select from "./Select";
 import Placeholder from "./Placeholder";
+import invertIcon from "../../public/invert.svg";
 
 export default function Card({ cssClass, cardData }) {
     const [result, setResult] = useState('');
@@ -11,20 +12,31 @@ export default function Card({ cssClass, cardData }) {
     // fetchGetSelect = { loading, error, value }
     const fetchGetSelect = useFetch(cardData.url, {  method: 'GET' });
 
+    const invertFields = () => {
+        setResult('');
+
+        let auxiliary = '';
+        let valueFrom = document.querySelector('#convertFrom' + cardData.title);
+        let valueTo = document.querySelector('#convertTo' + cardData.title);
+
+        auxiliary = valueTo.value;
+        valueTo.value = valueFrom.value;
+        valueFrom.value = auxiliary;
+    }
+
     const handleSubmit = async (event, url) => {
         event.preventDefault();
+        setIsLoading(true);
         setResult('');
 
         const data = Object.fromEntries(new FormData(event.target));
         data.valueToconvert = parseFloat(data.valueToconvert, 10);
 
         if (!data.valueToconvert) {
-            console.log('Campo vacio');
-            return;
+            throw new Error('Campo vacio');
         }
         if (data.valueToconvert <= 0) {
-            console.log('Valor no permitido');
-            return;
+            throw new Error('Valor no permitido');
         }
 
         try {
@@ -37,6 +49,7 @@ export default function Card({ cssClass, cardData }) {
         } catch (error) {
             setErrorMsg(error.message);
         }
+        setIsLoading(false);
     };
 
     return (
@@ -52,15 +65,18 @@ export default function Card({ cssClass, cardData }) {
                         <input className="form-control" type="text" name="valueToconvert" placeholder="Value" />
                     </div>
 
-                    <Select name="convertFrom" label='From'>
+                    <Select name="convertFrom" label='From' nameSelect={cardData.title}>
                         {fetchGetSelect.value.map(option => 
                             <option key={option.abbreviation} value={option.abbreviation}>
                                 {option.name + ' (' + option.abbreviation + ')'}
                             </option>)
                         }
                     </Select>
+                    <div className="invert_container">
+                        <img onClick={(event) => invertFields(event)} src={invertIcon} alt="invert icon" width='35px' height='35px' />
+                    </div>
 
-                    <Select name="convertTo" label='To'>
+                    <Select name="convertTo" label='To' nameSelect={cardData.title}>
                         { fetchGetSelect.value.map(option => 
                             <option key={option.abbreviation} value={option.abbreviation}>
                                 {option.name + ' (' + option.abbreviation + ')'}
