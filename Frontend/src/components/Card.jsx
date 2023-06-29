@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import useFetch from "./hooks/useFetch";
 import Select from "./Select";
 import Placeholder from "./Placeholder";
@@ -9,27 +9,32 @@ export default function Card({ cssClass, cardData }) {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
+    const formRef = useRef(null);
+    const selectFromRef = useRef(null);
+    const selectToRef = useRef(null);
+
     // fetchGetSelect = { loading, error, value }
-    const fetchGetSelect = useFetch(cardData.url, {  method: 'GET' });
+    const fetchGetSelect = useFetch(cardData.url, { method: 'GET' });
 
     const invertFields = () => {
         setResult('');
 
         let auxiliary = '';
-        let valueFrom = document.querySelector('#convertFrom' + cardData.title);
-        let valueTo = document.querySelector('#convertTo' + cardData.title);
+        let valueFrom = selectFromRef.current;
+        let valueTo = selectToRef.current;
 
         auxiliary = valueTo.value;
         valueTo.value = valueFrom.value;
         valueFrom.value = auxiliary;
+
+        handleButton(cardData.url)
     }
 
-    const handleSubmit = async (event, url) => {
-        event.preventDefault();
+    const handleButton = async (url) => {
         setIsLoading(true);
         setResult('');
 
-        const data = Object.fromEntries(new FormData(event.target));
+        const data = Object.fromEntries(new FormData(formRef.current));
         data.valueToconvert = parseFloat(data.valueToconvert, 10);
 
         if (!data.valueToconvert) {
@@ -57,40 +62,40 @@ export default function Card({ cssClass, cardData }) {
             {
                 (!fetchGetSelect.value) ?
 
-                <Placeholder /> :
+                    <Placeholder /> :
 
-                <form className="card_form" onSubmit={(event) => handleSubmit(event, cardData.url)}>
-                    <div className="pill">{cardData.title}</div>
-                    <div>
-                        <input className="form-control" type="text" name="valueToconvert" placeholder="Value" />
-                    </div>
+                    <form ref={formRef} className="card_form">
+                        <div className="pill">{cardData.title}</div>
+                        <div>
+                            <input className="form-control" type="text" name="valueToconvert" placeholder="Value" autoComplete="off" />
+                        </div>
 
-                    <Select name="convertFrom" label='From' nameSelect={cardData.title}>
-                        {fetchGetSelect.value.map(option => 
-                            <option key={option.abbreviation} value={option.abbreviation}>
-                                {option.name + ' (' + option.abbreviation + ')'}
-                            </option>)
-                        }
-                    </Select>
-                    <div className="invert_container">
-                        <img onClick={(event) => invertFields(event)} src={invertIcon} alt="invert icon" width='35px' height='35px' />
-                    </div>
+                        <Select name="convertFrom" label='From' SelectRef={selectFromRef}>
+                            {fetchGetSelect.value.map(option =>
+                                <option key={option.abbreviation} value={option.abbreviation}>
+                                    {option.name + ' (' + option.abbreviation + ')'}
+                                </option>)
+                            }
+                        </Select>
+                        <div className="invert_container">
+                            <img onClick={() => invertFields()} src={invertIcon} alt="invert icon" width='35px' height='35px' />
+                        </div>
 
-                    <Select name="convertTo" label='To' nameSelect={cardData.title}>
-                        { fetchGetSelect.value.map(option => 
-                            <option key={option.abbreviation} value={option.abbreviation}>
-                                {option.name + ' (' + option.abbreviation + ')'}
-                            </option>)
-                        }
-                    </Select>
+                        <Select name="convertTo" label='To' SelectRef={selectToRef}>
+                            {fetchGetSelect.value.map(option =>
+                                <option key={option.abbreviation} value={option.abbreviation}>
+                                    {option.name + ' (' + option.abbreviation + ')'}
+                                </option>)
+                            }
+                        </Select>
 
-                    <footer className="footer_card">
-                        <button className="btn" type="submit" disabled={isLoading ? true : false} >
-                            Convert
-                        </button>
-                        <span className="textResult" name="result">{result}</span>
-                    </footer>
-                </form>
+                        <footer className="footer_card">
+                            <button className="btn" type="button" onClick={() => handleButton(cardData.url)} disabled={isLoading ? true : false} >
+                                Convert
+                            </button>
+                            <span className="textResult" name="result">{result}</span>
+                        </footer>
+                    </form>
             }
         </article>
     );
