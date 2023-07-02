@@ -1,4 +1,6 @@
+import { ConfigService } from '@nestjs/config';
 export declare class MonedasService {
+    config: ConfigService;
     private arregloDemonedas;
     getMonedasService(): Promise<any[]>;
     convertirMoneda(valueToconvert: number, convertTo: string, convertFrom: string): Promise<{

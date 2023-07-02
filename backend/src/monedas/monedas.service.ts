@@ -1,17 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Monedas } from './monedas.entity';
 import { readFile } from 'fs/promises';
+import { ConfigService } from '@nestjs/config';
 
 const fetch = require('node-fetch');
-const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': 'e283b8df23msh74bcf5383bf312ap1e196bjsn49c68856fb3c',
-      'X-RapidAPI-Host': 'currency-exchange.p.rapidapi.com'
-    }
-  };
+
 @Injectable()
 export class MonedasService {
+    @Inject(ConfigService)
+    public config: ConfigService;
+
     private arregloDemonedas:Monedas[]=[
         
     ]
@@ -31,6 +29,13 @@ export class MonedasService {
         return array
     }
     async convertirMoneda(valueToconvert:number,convertTo:string,convertFrom:string){
+        const options = {
+            method: 'GET',
+            headers: {
+              'X-RapidAPI-Key': this.config.get('KEY'),
+              'X-RapidAPI-Host': 'currency-exchange.p.rapidapi.com'
+            }
+        };
         try {
             const codigosMonedas = JSON.parse(await readFile("./src/monedas/codigosMonedas.json", "utf8"));
             if (!codigosMonedas.hasOwnProperty(convertFrom)||!codigosMonedas.hasOwnProperty(convertTo)) 
@@ -39,7 +44,8 @@ export class MonedasService {
             
             const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valueToconvert}`, options);
             const result = await respuesta.text();
-
+            console.log(this.config.get('KEY'));
+            
             const MonedaConvertida={
                 valueToconvert,
                 convertTo,

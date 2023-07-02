@@ -17,7 +17,7 @@ let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot(),
+        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }),
             converter_module_1.ConverterModule, monedas_module_1.MonedasModule,
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'front'),

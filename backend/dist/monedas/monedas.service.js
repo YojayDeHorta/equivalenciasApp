@@ -5,18 +5,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MonedasService = void 0;
 const common_1 = require("@nestjs/common");
 const promises_1 = require("fs/promises");
+const config_1 = require("@nestjs/config");
 const fetch = require('node-fetch');
-const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': 'e283b8df23msh74bcf5383bf312ap1e196bjsn49c68856fb3c',
-        'X-RapidAPI-Host': 'currency-exchange.p.rapidapi.com'
-    }
-};
 let MonedasService = exports.MonedasService = class MonedasService {
     constructor() {
         this.arregloDemonedas = [];
@@ -33,6 +30,13 @@ let MonedasService = exports.MonedasService = class MonedasService {
         return array;
     }
     async convertirMoneda(valueToconvert, convertTo, convertFrom) {
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': this.config.get('KEY'),
+                'X-RapidAPI-Host': 'currency-exchange.p.rapidapi.com'
+            }
+        };
         try {
             const codigosMonedas = JSON.parse(await (0, promises_1.readFile)("./src/monedas/codigosMonedas.json", "utf8"));
             if (!codigosMonedas.hasOwnProperty(convertFrom) || !codigosMonedas.hasOwnProperty(convertTo))
@@ -40,6 +44,7 @@ let MonedasService = exports.MonedasService = class MonedasService {
             console.log(valueToconvert);
             const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valueToconvert}`, options);
             const result = await respuesta.text();
+            console.log(this.config.get('KEY'));
             const MonedaConvertida = {
                 valueToconvert,
                 convertTo,
@@ -55,6 +60,10 @@ let MonedasService = exports.MonedasService = class MonedasService {
         }
     }
 };
+__decorate([
+    (0, common_1.Inject)(config_1.ConfigService),
+    __metadata("design:type", config_1.ConfigService)
+], MonedasService.prototype, "config", void 0);
 exports.MonedasService = MonedasService = __decorate([
     (0, common_1.Injectable)()
 ], MonedasService);
