@@ -130,9 +130,12 @@ export class ConverterService {
         let metrosTo=convertidoAmetros*equivalenciaPrincipal.convertTo[convertTo]
         console.log(metrosTo.toExponential().replace('e', ' x 10^'));
         let metroconvertido:any
-        if (metrosTo.toString().includes('e')||metrosTo>1000000) {
+        if(metrosTo % 1 == 0){
+            metroconvertido=metrosTo
+        }else if(metrosTo.toString().includes('e')||metrosTo>1000000||metrosTo<0.000001) {
             metroconvertido=metrosTo.toExponential().replace('e', 'x10^')
         }else{
+            
             metroconvertido=metrosTo.toPrecision(4)
         }
          //guardar longitudes

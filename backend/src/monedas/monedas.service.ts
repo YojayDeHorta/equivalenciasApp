@@ -44,7 +44,7 @@ export class MonedasService {
             
             const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valueToconvert}`, options);
             const result = await respuesta.text();
-            console.log(this.config.get('KEY'));
+            // console.log(this.config.get('KEY'));
             
             const MonedaConvertida={
                 valueToconvert,
