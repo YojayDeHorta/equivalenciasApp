@@ -42,9 +42,8 @@ let MonedasService = exports.MonedasService = class MonedasService {
             if (!codigosMonedas.hasOwnProperty(convertFrom) || !codigosMonedas.hasOwnProperty(convertTo))
                 return { ok: false, message: "it seems that the convertTo or convertFrom are incorrect, they were not found in the currencies table" };
             console.log(valueToconvert);
-            if (convertFrom == convertTo) {
+            if (convertFrom == convertTo)
                 return { ok: false, message: "the currency to be converted is the same, please make a change in the currencies" };
-            }
             const respuesta = await fetch(`https://currency-exchange.p.rapidapi.com/exchange?from=${convertFrom}&to=${convertTo}&q=${valueToconvert}`, options);
             const result = await respuesta.text();
             const MonedaConvertida = {
