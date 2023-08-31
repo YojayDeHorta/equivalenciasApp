@@ -2,7 +2,7 @@
 Unit conversion application created using Astrojs and Nestjs, the units available to convert are: length, speed, time and currency exchange.
 
 
-# frontend ASTRO
+# Frontend - astro
 
 ## Project setup
 ```
@@ -13,7 +13,7 @@ npm install
 ```
 npm run dev
 ```
-# backend NESTJS
+# Backend - Nestjs
 
 ## Environment Variables
 
